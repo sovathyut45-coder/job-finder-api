@@ -1,102 +1,158 @@
-# Job Finder API
+# Job Finder API (Laravel REST API)
 
-A RESTful API built with Laravel for a Job Finder application. This project provides authentication, user profile management, job-related features, and API integration to support a modern job search platform.
+A RESTful API built with **Laravel** for the **Job Finder Application**. This backend provides secure authentication, user profile management, saved jobs, applied jobs, dashboard statistics, and integration with external job services.
 
-## Overview
+This API is designed to work with the **Job Finder Flutter App** and follows RESTful architecture with Laravel Sanctum authentication.
 
-The Job Finder API serves as the backend for a mobile application developed with Flutter. It handles user authentication, profile management, data storage, and communication with external job services.
+---
 
-## Features
+# Overview
 
-### Authentication
+The Job Finder API serves as the backend of the Job Finder mobile application. It manages authentication, user accounts, saved jobs, applied jobs, dashboard statistics, avatar uploads, and communicates with external job providers.
 
-* User Registration
-* User Login
-* User Logout
-* Token-based Authentication
-* Protected API Routes
+---
 
-### User Profile
+# Features
 
-* View Profile Information
-* Update Profile Details
-* Upload User Avatar
-* Manage Account Information
+## Authentication
 
-### Job Features
+- User Registration
+- User Login
+- User Logout
+- Laravel Sanctum Authentication
+- Protected API Routes
 
-* Search Jobs
-* View Job Details
-* Save Jobs
-* Remove Saved Jobs
-* Track Applied Jobs
-* Application History
+---
 
-### API Integration
+## User Profile
 
-* Integration with External Job APIs
-* JSON Data Processing
-* API Request and Response Handling
+- View Profile
+- Update Profile
+- Upload Avatar
+- Manage Account Information
 
-### Database Management
+---
 
-* Relational Database Design
-* Data Validation
-* Eloquent ORM Relationships
-* Migration Management
+## Saved Jobs
 
-## Technology Stack
+- Save Job
+- Get Saved Jobs
+- Remove Saved Job
+- Clear All Saved Jobs
 
-### Backend
+---
 
-* PHP
-* Laravel
+## Applied Jobs
 
-### Database
+- Apply for Job
+- Get Applied Jobs
+- Update Application Status
+- Update Application Notes
+- Remove Applied Job
+- Clear All Applied Jobs
 
-* MySQL
+---
 
-### Authentication
+## Dashboard
 
-* Laravel Sanctum
+- Total Saved Jobs
+- Total Applied Jobs
+- Pending Applications
+- Interview Applications
+- Accepted Applications
+- Rejected Applications
 
-### Tools
+---
 
-* Git
-* GitHub
-* Postman
+## External API Integration
 
-## Installation
+- Arbeitnow Job API
+- JSON Data Processing
+- HTTP Request & Response Handling
 
-### Clone Repository
+---
+
+## Database
+
+- MySQL Database
+- Eloquent ORM
+- Relationships
+- Migrations
+- Validation
+
+---
+
+# Technology Stack
+
+## Backend
+
+- PHP 8+
+- Laravel 12
+
+## Database
+
+- MySQL
+
+## Authentication
+
+- Laravel Sanctum
+
+## Storage
+
+- Laravel Storage
+
+## Tools
+
+- Git
+- GitHub
+- Postman
+- Composer
+
+---
+
+# Installation
+
+## Clone Repository
 
 ```bash
 git clone https://github.com/sovathyut45-coder/job-finder-api.git
 ```
 
-### Navigate to Project
+## Navigate to Project
 
 ```bash
 cd job-finder-api
 ```
 
-### Install Dependencies
+## Install Dependencies
 
 ```bash
 composer install
 ```
 
-### Create Environment File
+## Create Environment File
 
 ```bash
 cp .env.example .env
 ```
 
-### Configure Database
+If you're using Windows:
 
-Update the following values in your `.env` file:
+```bash
+copy .env.example .env
+```
+
+## Configure Database
+
+Update your `.env` file.
 
 ```env
+APP_NAME="Job Finder API"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://127.0.0.1:8000
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -105,25 +161,25 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### Generate Application Key
+## Generate Application Key
 
 ```bash
 php artisan key:generate
 ```
 
-### Run Database Migrations
+## Run Database Migration
 
 ```bash
 php artisan migrate
 ```
 
-### Create Storage Link
+## Create Storage Link
 
 ```bash
 php artisan storage:link
 ```
 
-### Start Development Server
+## Start Development Server
 
 ```bash
 php artisan serve
@@ -131,47 +187,167 @@ php artisan serve
 
 The API will be available at:
 
-```text
+```
 http://127.0.0.1:8000
 ```
 
-## API Testing
+---
 
-This project can be tested using:
+# API Endpoints
 
-* Postman
-* Thunder Client
-* Insomnia
+## Authentication
 
-## Development Practices
+| Method | Endpoint |
+|---------|----------|
+| POST | /api/register |
+| POST | /api/login |
+| POST | /api/logout |
 
-* RESTful API Design
-* MVC Architecture
-* Database Migrations
-* Request Validation
-* Clean Code Principles
-* Version Control with Git
+---
 
-## Future Improvements
+## Profile
 
-* Role-Based Access Control (RBAC)
-* Email Verification
-* Password Reset
-* API Documentation
-* Notification System
-* Advanced Search and Filtering
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/profile |
+| PUT | /api/profile |
+| POST | /api/profile/avatar |
 
-## Author
+---
 
-Phai Sovathyut
+## Saved Jobs
 
-Final-Year Computer Science Student
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/saved-jobs |
+| POST | /api/saved-jobs |
+| DELETE | /api/saved-jobs/{id} |
+| DELETE | /api/saved-jobs/clear |
+
+---
+
+## Applied Jobs
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/applied-jobs |
+| POST | /api/applied-jobs |
+| PATCH | /api/applied-jobs/{id}/status |
+| PATCH | /api/applied-jobs/{id}/note |
+| DELETE | /api/applied-jobs/{id} |
+| DELETE | /api/applied-jobs/clear |
+
+---
+
+## Dashboard
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/dashboard/stats |
+
+---
+
+# Authentication
+
+Protected routes require a Bearer Token.
+
+```
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+---
+
+# Project Structure
+
+```
+app/
+├── Http/
+│   └── Controllers/
+│       └── Api/
+│           ├── AppliedJobController.php
+│           ├── AuthController.php
+│           ├── DashboardController.php
+│           ├── ProfileController.php
+│           └── SavedJobController.php
+│
+├── Models/
+│   ├── AppliedJob.php
+│   ├── SavedJob.php
+│   └── User.php
+│
+database/
+├── migrations/
+```
+
+---
+
+# API Testing
+
+The API can be tested using:
+
+- Postman
+- Thunder Client
+- Insomnia
+
+---
+
+# Development Practices
+
+- RESTful API Design
+- MVC Architecture
+- Laravel Best Practices
+- Request Validation
+- Eloquent ORM
+- Resourceful Controllers
+- Clean Code Principles
+- Version Control with Git
+
+---
+
+# Future Improvements
+
+- Resume Upload
+- Email Verification
+- Password Reset
+- Role-Based Access Control (RBAC)
+- API Documentation (Swagger/OpenAPI)
+- Notifications
+- Advanced Job Filtering
+- Search History API
+- Recent Jobs API
+
+---
+
+# Live Demo
+
+Backend API
+
+```
+Coming Soon
+```
+
+Flutter Application
+
+```
+Coming Soon
+```
+
+---
+
+# Author
+
+**Phai Sovathyut**
+
+Computer Science Student  
 Royal University of Phnom Penh (RUPP)
 
-Email: sovathyut45@gmail.com
+Email: **sovathyut45@gmail.com**
 
-GitHub: https://github.com/sovathyut45-coder
+GitHub:
+https://github.com/sovathyut45-coder
 
-## License
+---
 
-This project is created for educational, learning, and portfolio purposes.
+# License
+
+This project is developed for **educational**, **learning**, and **portfolio** purposes.
