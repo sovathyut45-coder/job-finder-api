@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: job-finder-api
+    runtime: docker
+    plan: free
