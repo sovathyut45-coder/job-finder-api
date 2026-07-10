@@ -27,8 +27,6 @@ return new class extends Migration
 
             $table->string('location');
 
-            //$table->string('job_type')->nullable();
-
             $table->string('logo')
                 ->nullable();
 

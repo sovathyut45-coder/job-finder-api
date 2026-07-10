@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SavedJobController;
 use App\Http\Controllers\Api\DashboardController;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 // ---------------------------
 // ផ្លូវមិនត្រូវការចូលប្រើ
@@ -38,3 +40,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
 
 });
+
+
+Route::get('/test-email', function () {
+
+    Mail::raw('This is a test email from Job Finder API.', function ($message) {
+
+        $message->to('sovathyut45@gmail.com')
+                ->subject('Test Email');
+
+    });
+
+    return response()->json([
+        'message' => 'Email sent successfully'
+    ]);
+});
+
+Route::post(
+    '/forgot-password',
+    [ForgotPasswordController::class, 'sendResetLink']
+);
