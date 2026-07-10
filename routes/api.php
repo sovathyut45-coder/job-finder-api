@@ -41,6 +41,31 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+Route::get('/smtp-test', function () {
+
+    $fp = @fsockopen(
+        'smtp-relay.brevo.com',
+        587,
+        $errno,
+        $errstr,
+        10
+    );
+
+    if (!$fp) {
+        return [
+            'success' => false,
+            'errno' => $errno,
+            'error' => $errstr,
+        ];
+    }
+
+    fclose($fp);
+
+    return [
+        'success' => true,
+    ];
+});
+
 
 Route::get('/test-email', function () {
 
