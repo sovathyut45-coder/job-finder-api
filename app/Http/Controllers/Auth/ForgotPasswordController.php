@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Facades\Http;
 
 class ForgotPasswordController extends Controller
 {
@@ -56,7 +57,59 @@ class ForgotPasswordController extends Controller
             . $token . '&email='
             . urlencode($request->email);
 
-        Mail::to($request->email)->send(new ResetPasswordMail($url));
+        // Mail::to($request->email)->send(new ResetPasswordMail($url));
+        $response = Http::withHeaders([
+            'accept' => 'application/json',
+            'api-key' => env('BREVO_API_KEY'),
+            'content-type' => 'application/json',
+        ])->post(
+            'https://api.brevo.com/v3/smtp/email',
+            [
+                'sender' => [
+                    'name' => env('MAIL_FROM_NAME'),
+                    'email' => env('MAIL_FROM_ADDRESS'),
+                ],
+
+                'to' => [
+                    [
+                        'email' => $request->email,
+                        'name' => $user->name,
+                    ]
+                ],
+
+                'subject' => 'Reset Your Password',
+
+                'htmlContent' => "
+                    <h2>Job Finder</h2>
+
+                    <p>Hello {$user->name},</p>
+
+                    <p>Click the button below to reset your password.</p>
+
+                    <a href='{$url}'
+                       style='
+                            background:#2563eb;
+                            color:white;
+                            padding:12px 20px;
+                            text-decoration:none;
+                            border-radius:6px;
+                       '>
+                        Reset Password
+                    </a>
+
+                    <p>This link expires in 60 minutes.</p>
+                "
+            ]
+        );
+
+        if (!$response->successful()) {
+
+            return response()->json([
+                'success' => false,
+                'brevo' => $response->json(),
+            ], 500);
+
+        }
 
         return response()->json([
             'success' => true,
