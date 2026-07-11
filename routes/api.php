@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AppliedJobController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SavedJobController;
 use App\Http\Controllers\Api\DashboardController;
@@ -41,47 +42,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-Route::get('/smtp-test', function () {
+Route::post('/forgot-password',[ForgotPasswordController::class, 'sendResetLink']);
+Route::get('/reset-password', function (Request $request) {
 
-    $fp = @fsockopen(
-        'smtp-relay.brevo.com',
-        587,
-        $errno,
-        $errstr,
-        10
-    );
-
-    if (!$fp) {
-        return [
-            'success' => false,
-            'errno' => $errno,
-            'error' => $errstr,
-        ];
-    }
-
-    fclose($fp);
-
-    return [
-        'success' => true,
-    ];
-});
-
-
-Route::get('/test-email', function () {
-
-    Mail::raw('This is a test email from Job Finder API.', function ($message) {
-
-        $message->to('sovathyut45@gmail.com')
-                ->subject('Test Email');
-
-    });
-
-    return response()->json([
-        'message' => 'Email sent successfully'
+    return view('emails.reset-password', [
+        'token' => $request->token,
+        'email' => $request->email,
     ]);
-});
 
-Route::post(
-    '/forgot-password',
-    [ForgotPasswordController::class, 'sendResetLink']
-);
+});
