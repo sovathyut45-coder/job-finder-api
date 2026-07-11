@@ -43,11 +43,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('/forgot-password',[ForgotPasswordController::class, 'sendResetLink']);
-Route::get('/reset-password', function (Request $request) {
 
-    return view('emails.reset-password', [
-        'token' => $request->token,
-        'email' => $request->email,
-    ]);
-
-});
