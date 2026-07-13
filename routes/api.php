@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\SavedJobController;
 use App\Http\Controllers\Api\DashboardController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 // ---------------------------
 // ផ្លូវមិនត្រូវការចូលប្រើ
@@ -43,4 +44,5 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('/forgot-password',[ForgotPasswordController::class, 'sendResetLink']);
+Route::post('/reset-password',[ResetPasswordController::class, 'resetPassword']);
 

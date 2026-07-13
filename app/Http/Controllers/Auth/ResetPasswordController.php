@@ -25,16 +25,10 @@ class ResetPasswordController extends Controller
             ] , 422);
         }
         $reset = DB::table('password_reset_tokens')
-            ->where('token', $request->token)
+            ->where('email', $request->email)
             ->first();
 
-        if(!$reset){
-            return response()->json([
-                'success' => false,
-                'error' => 'Invalid token'
-            ] , 422);
-        }
-        if(!Hash::check($request->token, $reset->token)){
+        if(!$reset || !Hash::check($request->token, $reset->token)){
             return response()->json([
                 'success' => false,
                 'error' => 'Invalid token'
@@ -60,9 +54,7 @@ class ResetPasswordController extends Controller
             ->where('email', $reset->email)
             ->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Password reset successfully'
-        ] , 200);
+        return redirect('/login-success')
+            ->with('success', 'Password reset successfully.');
     }
 }

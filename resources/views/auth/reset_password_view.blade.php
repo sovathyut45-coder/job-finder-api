@@ -45,7 +45,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="/reset-password">
+                    <form method="POST" action="/api/reset-password">
 
                         @csrf
 

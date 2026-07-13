@@ -12,9 +12,6 @@ Route::get('/reset-password', function (Request $request) {
 
 });
 
-// Route::get('/reset-password', function (Request $request) {
-//     return view('auth.reset_password_view', [
-//         'token' => $request->token,
-//         'email' => $request->email,
-//     ]);
-// });
+Route::get('/login-success', function () {
+    return view('auth.login-success');
+});
