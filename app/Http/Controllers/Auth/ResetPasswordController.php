@@ -25,6 +25,7 @@ class ResetPasswordController extends Controller
                 'error' => $validator->errors()
             ] , 422);
         }
+        
         $reset = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->first();
