@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/profile', [AuthController::class, 'updateProfile']);
     Route::post('/profile/avatar', [AuthController::class, 'uploadAvatar']);
-    Route::post('/change-password', [ChangePasswordController::class, 'changePassword']);
+    Route::put('/change-password', [ChangePasswordController::class, 'changePassword']);
 
     // ✅ ផ្លូវគ្រប់គ្រងការងារដែលបានរក្សាទុក
     Route::post('/saved-jobs/toggle', [SavedJobController::class, 'toggle']);
